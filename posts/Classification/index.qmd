@@ -14,3 +14,10 @@ import numpy as np
 import matplotlib.pyplot as pl
 
 ```
+
+Importing the data set
+
+```{python}
+df = pd.read_csv("Blacksburg_weather_dataset.csv", index_col="DATE")
+df.head()
+```
