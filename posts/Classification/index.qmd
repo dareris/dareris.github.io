@@ -1,13 +1,16 @@
 ---
-title: "Post With Code"
-author: "Harlow Malloc"
+title: "Classification"
+author: "Rishav Khatiwada"
 date: "2023-11-19"
 categories: [news, code, analysis]
 image: "image.jpg"
 ---
 
-This is a post with executable code.
+First we start with importing some of the required libraries
 
-```{r}
-1 + 1
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as pl
+
 ```
