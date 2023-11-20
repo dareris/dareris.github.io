@@ -95,6 +95,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -187,6 +190,129 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> pl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Importing the data set</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"Blacksburg_weather_dataset.csv"</span>, index_col<span class="op">=</span><span class="st">"DATE"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">STATION</th>
+<th data-quarto-table-cell-role="th">LATITUDE</th>
+<th data-quarto-table-cell-role="th">LONGITUDE</th>
+<th data-quarto-table-cell-role="th">ELEVATION</th>
+<th data-quarto-table-cell-role="th">DAPR</th>
+<th data-quarto-table-cell-role="th">MDPR</th>
+<th data-quarto-table-cell-role="th">PRCP</th>
+<th data-quarto-table-cell-role="th">SNOW</th>
+<th data-quarto-table-cell-role="th">SNWD</th>
+<th data-quarto-table-cell-role="th">TMAX</th>
+<th data-quarto-table-cell-role="th">TMIN</th>
+<th data-quarto-table-cell-role="th">TOBS</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">DATE</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1/1/2000</td>
+<td>USC00440766</td>
+<td>37.2039</td>
+<td>-80.4144</td>
+<td>641.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>56.0</td>
+<td>25.0</td>
+<td>33.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1/2/2000</td>
+<td>USC00440766</td>
+<td>37.2039</td>
+<td>-80.4144</td>
+<td>641.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>59.0</td>
+<td>33.0</td>
+<td>36.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1/3/2000</td>
+<td>USC00440766</td>
+<td>37.2039</td>
+<td>-80.4144</td>
+<td>641.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>63.0</td>
+<td>34.0</td>
+<td>41.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1/4/2000</td>
+<td>USC00440766</td>
+<td>37.2039</td>
+<td>-80.4144</td>
+<td>641.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>0.00</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>66.0</td>
+<td>38.0</td>
+<td>58.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1/5/2000</td>
+<td>USC00440766</td>
+<td>37.2039</td>
+<td>-80.4144</td>
+<td>641.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>0.03</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>60.0</td>
+<td>26.0</td>
+<td>26.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
 </div>
 
 
