@@ -1,0 +1,265 @@
+---
+title: "Regression"
+author: "Rishav Khatiwada"
+date: "2023-11-19"
+categories: [news, code, analysis]
+image: "image.jpg"
+---
+
+Importing the required libraries
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as pl
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.pipeline import make_pipeline
+from sklearn.metrics import mean_absolute_error, median_absolute_error, explained_variance_score
+```
+
+Importing the dataset
+
+```{python}
+data=pd.read_csv('Small-Sq-Dev-7-27-2023-2.dat')
+data.head()
+```
+
+to identify the missing values
+
+```{python}
+data.apply(pd.isnull).sum()/data.shape[0]
+```
+
+to obtain the required features and converting them into columns
+
+```{python}
+new_data= data[["B Field (T)", "P124A (V)"]].copy()
+
+new_data.columns = ["B_field", "Voltage"]
+new_data.tail()
+```
+
+Using the relation:
+
+$Resistance(R) = Voltage(V)/ Current(I),    from Ohm's law$
+
+```{python}
+new_data['resistance'] = new_data['Voltage'] / 100e-9
+new_data.head()
+```
+
+Visualizing the data:
+
+```{python}
+pl.scatter(new_data['B_field'],new_data['resistance'])
+pl.xlabel('B Field (T)')
+pl.ylabel('Resistance(Ohms)')
+pl.title('MAgnetoresistance plot')
+```
+
+First we check if the linear regression works here using the linear relation, if not then we explore other options:
+
+```{python}
+# Split the data into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(new_data[['B_field']], new_data['resistance'], test_size=0.2, random_state=42)
+
+# Linear regression model
+linear_model = LinearRegression()
+linear_model.fit(X_train, y_train)
+
+# Predictions
+y_pred = linear_model.predict(X_test)
+
+# Model evaluation
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+print("Linear Regression:")
+print(f"Mean Squared Error: {mse}")
+print(f"R-squared: {r2}")
+
+# Visualization
+pl.scatter(X_test, y_test, label='Actual')
+pl.plot(X_test, y_pred, color='red', label='Predicted')
+pl.xlabel('MagneticField')
+pl.ylabel('Resistance')
+pl.legend()
+pl.show()
+```
+
+Clearly, we can see that first degree linear regression doesn't work here, so we try to explore the polynomial regression if it works but for that also we are unknown about the degree of our polynomial so we first identify the best fitting model:
+
+```{python}
+best_degree = None
+best_model = None
+best_mse = float('inf')
+best_r2 = -float('inf')
+
+# Trying diff polynomial degrees and selecting the best model
+for degree in range(1, 6):
+  
+    polyreg = make_pipeline(PolynomialFeatures(degree), LinearRegression())
+    polyreg.fit(X_train, y_train)
+
+    # Predictions
+    y_pred_poly = polyreg.predict(X_test)
+
+    # Model evaluation
+    mse_poly = mean_squared_error(y_test, y_pred_poly)
+    r2_poly = r2_score(y_test, y_pred_poly)
+
+    print(f"Polynomial Regression (Degree {degree}):")
+    print(f"Mean Squared Error: {mse_poly}")
+    print(f"R-squared: {r2_poly}")
+
+    if mse_poly < best_mse:
+        best_degree = degree
+        best_model = polyreg
+        best_mse = mse_poly
+        best_r2 = r2_poly
+
+print(f"Best Polynomial Model (Degree {best_degree}):")
+print(f"Mean Squared Error: {best_mse}")
+print(f"R-squared: {best_r2}")
+```
+
+Let's try to visualize this:
+
+```{python}
+# Initializing lists:
+mse_values = []
+r2_values = []
+
+degrees = list(range(1, 6))
+
+# Iterating:
+for degree in degrees:
+    polyreg = make_pipeline(PolynomialFeatures(degree), LinearRegression())
+    polyreg.fit(X_train, y_train)
+    
+    # Calculating MSE and R-squared
+    mse_poly = mean_squared_error(y_test, polyreg.predict(X_test))
+    r2_poly = r2_score(y_test, polyreg.predict(X_test))
+    
+    mse_values.append(mse_poly)
+    r2_values.append(r2_poly)
+
+
+pl.figure(figsize=(12, 5))
+pl.subplot(1, 2, 1)
+
+pl.plot(degrees, mse_values, marker='o', linestyle='-')
+pl.title('Mean Squared Error (MSE) for Polynomial Regression')
+pl.xlabel('Polynomial Degree')
+pl.ylabel('MSE')
+pl.grid(True)
+
+
+pl.subplot(1, 2, 2)
+pl.plot(degrees, r2_values, marker='o', linestyle='-')
+pl.title('R-squared (R^2) for Polynomial Regression')
+pl.xlabel('Polynomial Degree')
+pl.ylabel('R^2')
+pl.grid(True)
+
+pl.tight_layout()
+pl.show()
+```
+
+For the absolute error and variance score:
+
+```{python}
+y_true = new_data['resistance']
+
+y_true_subset = y_true[:min(len(y_true), len(y_pred))]
+y_pred_subset = y_pred[:min(len(y_true), len(y_pred))]
+
+
+mae = mean_absolute_error(y_true_subset, y_pred_subset)
+med_ae = median_absolute_error(y_true_subset, y_pred_subset)
+explained_var = explained_variance_score(y_true_subset, y_pred_subset)
+
+# Creating a DFrame for visualization:
+metric_values = pd.DataFrame({
+    'Metric': ['Mean Absolute Error', 'Median Absolute Error', 'Explained Variance Score'],
+    'Value': [mae, med_ae, explained_var]
+})
+
+
+pl.figure(figsize=(10, 6))
+sns.barplot(x='Metric', y='Value', data=metric_values, palette='Set3')
+pl.title("Model Evaluation Metrics")
+pl.ylabel("Metric Value")
+pl.xticks(rotation=45)
+pl.show()
+```
+
+From the above analysis, it is clear that the polynomial of degree 5 is the best option for us, so we can proceed our further analysis by using this degree:
+
+```{python}
+X = new_data[['B_field']]
+y = new_data['resistance']
+
+
+degree = 5
+polyreg = PolynomialFeatures(degree)
+X_poly = polyreg.fit_transform(X)
+
+model = LinearRegression()
+model.fit(X_poly, y)
+
+y_pred = model.predict(X_poly)
+
+```
+
+Now, comparing the actual and predicted values of resistance through a plot.
+
+```{python}
+pl.figure(figsize=(10, 6))
+sns.scatterplot(x=X['B_field'], y=y, label='Actual', color='purple')
+sns.scatterplot(x=X['B_field'], y=y_pred, label='Predicted', color='yellow')
+pl.xlabel('MagneticField')
+pl.ylabel('Resistance')
+pl.legend()
+pl.title('Actual vs. Predicted Resistance')
+pl.show()
+```
+
+And the interpretation:
+
+```{python}
+coefficients = model.coef_
+intercept = model.intercept_
+print("Coefficients:", coefficients)
+print("Intercept:", intercept)
+```
+
+Examining the model performance:
+
+```{python}
+mse = mean_squared_error(y, y_pred)
+r2 = r2_score(y, y_pred)
+print("Mean Squared Error:", mse)
+print("R-squared:", r2)
+```
+
+Finally we calculate the residuals, which we also term as smoothing the curve that is removing any kind of background from the data and just finding the peak of resistance amplitude:
+
+```{python}
+residuals = y - y_pred
+
+# Create a residual plot
+pl.figure(figsize=(10, 6))
+sns.scatterplot(x=X['B_field'], y=residuals, color='green')
+pl.axhline(y=0, color='red', linestyle='--')
+pl.xlabel('MagneticField')
+pl.ylabel('Residuals')
+pl.title('Residual Plot')
+pl.show()
+```
+
+This shows that if we deduct the parabola from the plot we get this actual relation which makes complete sense and it matches the plot that we get after we use savgol filter of parabola reduction. This proves that our model actually worked.
