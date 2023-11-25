@@ -22,6 +22,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import roc_curve, roc_auc_score, precision_recall_curve
 from scipy.stats import ttest_ind
+from sklearn.model_selection import RandomizedSearchCV
+from scipy.stats import randint
 ```
 
 Importing the data set
@@ -245,20 +247,20 @@ param_grid = {
     }
 
 
-grid_search = GridSearchCV(rf_classifier, param_grid, cv=5, scoring='accuracy')  
+random_search = RandomizedSearchCV(rf_classifier, param_grid, n_iter=5, cv=5, scoring='accuracy', random_state=42)
 
 
-grid_search.fit(X, y)
+random_search.fit(X, y)
 
 
-best_params = grid_search.best_params_
-best_model = grid_search.best_estimator_
+best_params = random_search.best_params_
+best_model = random_search.best_estimator_
 
 print("Best Hyperparameters:")
 print(best_params)
 
 
-results = pd.DataFrame(grid_search.cv_results_)
+results = pd.DataFrame(random_search.cv_results_)
 ```
 
 And for the pivot table and confusion matrix visualization
@@ -359,31 +361,11 @@ pl.legend()
 
 # Adjusting the layout to prevent overlap of subplots
 pl.tight_layout()
-
-```
-
-```{python}
-pl.subplot(2, 1, 1)
-sns.boxplot(data=df, y='min_T(Kelvin)', x='rain')
-pl.title('Min Temperature vs. Rainfall')
-pl.figure(figsize=(4, 3))
-
-
-pl.subplot(2, 1, 2)
-sns.boxplot(data=df, x='rain', y='max_T(Kelvin)')
-pl.title('Max Temperature by Rain')
-pl.figure(figsize=(4, 3))
-pl.show()
 ```
 
 And Finally for the T-test results and the accuracy scores:
 
-```{python}
-t_stat, p_value = ttest_ind(max_temp_rain, max_temp_no_rain)
-print(f'T-Test Results (max_T(Kelvin)): t-statistic={t_stat:.2f}, p-value={p_value:.4f}')
-
-print(f'Model Accuracy: {final_accuracy:.2f}')
-```
+```         
 
 In the future, if we want to know the accuracy of any dataframe directly we can use the following code to directly give the accuracy score once we upload a file which has been cleaned to make ML ready.
 
@@ -400,25 +382,26 @@ def predict_snowfall(min_temp, max_temp): try:
 \# Create a DataFrame with the input data
 
 input_data = pd.DataFrame({'min_T(Kelvin)': \[min_temp\], 'max_T(Kelvin)': \[max_temp\]})
+```
 
 ```         
-    # Make predictions
-    prediction = model.predict(input_data)
+# Make predictions
+prediction = model.predict(input_data)
 
-    return prediction[0]
-except Exception as e:
-    return str(e)
+return prediction[0]
 ```
+
+except Exception as e: return str(e)
+
+```         
 
 if **name** == '**main**': print("Temperature to rainfall Prediction")
 
 min_temp = float(input("Enter Minimum Temperature (Kelvin):"))
 
 max_temp = float(input("Enter Maximum Temperature (Kelvin):"))
-
-```         
-result = predict_rainfall(min_temp, max_temp)
-print(f"rainfall Prediction: {result}")
 ```
+
+result = predict_rainfall(min_temp, max_temp) print(f"rainfall Prediction: {result}") \`\`\`
 
 "
