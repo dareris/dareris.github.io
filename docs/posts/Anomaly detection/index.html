@@ -367,7 +367,7 @@ SN
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pl.scatter(data.iloc[:,<span class="dv">3</span>],data.iloc[:,<span class="dv">4</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>&lt;matplotlib.collections.PathCollection at 0x18b702f4790&gt;</code></pre>
+<pre><code>&lt;matplotlib.collections.PathCollection at 0x24ff02e4350&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-6-output-2.png" width="583" height="411"></p>
@@ -469,7 +469,7 @@ dtype: float64</code></pre>
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sns.distplot(data[<span class="st">"Average"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>C:\Users\poude\AppData\Local\Temp\ipykernel_22904\1442402836.py:1: UserWarning: 
+<pre><code>C:\Users\poude\AppData\Local\Temp\ipykernel_21888\1442402836.py:1: UserWarning: 
 
 `distplot` is a deprecated function and will be removed in seaborn v0.14.0.
 
@@ -578,7 +578,7 @@ SN
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>pl.scatter(data.iloc[:,<span class="dv">3</span>],data.iloc[:,<span class="dv">4</span>])</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>pl.scatter(new_price[price,<span class="dv">3</span>],new_price[price,<span class="dv">4</span>],edgecolor<span class="op">=</span><span class="st">'blue'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
-<pre><code>&lt;matplotlib.collections.PathCollection at 0x18b774c8c10&gt;</code></pre>
+<pre><code>&lt;matplotlib.collections.PathCollection at 0x24ff749c310&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-14-output-2.png" width="583" height="411"></p>
@@ -592,13 +592,13 @@ SN
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>C:\Users\poude\AppData\Local\Temp\ipykernel_22904\2041701408.py:1: SettingWithCopyWarning: 
+<pre><code>C:\Users\poude\AppData\Local\Temp\ipykernel_21888\2041701408.py:1: SettingWithCopyWarning: 
 A value is trying to be set on a copy of a slice from a DataFrame.
 Try using .loc[row_indexer,col_indexer] = value instead
 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
   data["Date"] = pd.to_datetime(data["Date"]).apply(lambda x: x.timestamp())
-C:\Users\poude\AppData\Local\Temp\ipykernel_22904\2041701408.py:3: SettingWithCopyWarning: 
+C:\Users\poude\AppData\Local\Temp\ipykernel_21888\2041701408.py:3: SettingWithCopyWarning: 
 A value is trying to be set on a copy of a slice from a DataFrame.
 Try using .loc[row_indexer,col_indexer] = value instead
 
@@ -737,7 +737,7 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>silhouette_avg <span class="op">=</span> silhouette_score(data, dbscan.labels_)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Silhouette Score: </span><span class="sc">{</span>silhouette_avg<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Silhouette Score: 0.8130632448850396</code></pre>
+<pre><code>Silhouette Score: 0.8130632448850409</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="19">
