@@ -9,7 +9,6 @@ image: "image.jpg"
 Importing the required libraries:
 
 ```{python}
-#| echo: false
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as pl
