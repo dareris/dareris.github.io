@@ -1,0 +1,242 @@
+---
+title: "K-means Clustering"
+author: "Rishav Khatiwada"
+date: "2023-11-19"
+categories: [news, code, analysis]
+image: "image.jpg"
+---
+
+Importing the required libraries
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as pl
+import seaborn as sns
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+```
+
+Importing the data set:
+
+```{python}
+data=pd.read_csv('movie_metadata.csv')
+data.head()
+```
+
+Finding out the total elements, frequency and the most frequent data from our data set:
+
+```{python}
+data.describe(include='object')
+```
+
+Selecting the important features that we need and converting them into the columns:
+
+```{python}
+movie= data[["director_name",'num_critic_for_reviews',"actor_1_name","genres", "duration","actor_1_facebook_likes","actor_2_facebook_likes","content_rating","actor_3_facebook_likes","gross","budget"]].copy()
+
+
+movie.columns = ["director_name",'critic_review',"actor1_name","genre", "duration","actor1_fb_likes","actor2_fb_likes","content_rating","actor3_fb_likes", "gross","budget"]
+
+movie.head()
+```
+
+To prepare the data to be machine learning ready, let's first identify the missing values:
+
+```{python}
+movie.apply(pd.isnull).sum()/movie.shape[0]
+```
+
+Dropping the missing values meaning deleting the entire row of the ones which contains missing data:
+
+```{python}
+movie.dropna(axis=0, inplace=True)
+movie
+```
+
+Calculating the total facebook likes by summing the three related columns:
+
+```{python}
+movie['total_fb_likes'] = movie['actor1_fb_likes'] + movie['actor2_fb_likes'] + movie['actor3_fb_likes']
+
+movie = movie.drop(['actor1_fb_likes', 'actor2_fb_likes', 'actor3_fb_likes'], axis=1)
+movie.head()
+```
+
+Using the label encoder to convert the names into the numerals which our model thrives on:
+
+```{python}
+label_encoder = LabelEncoder()
+
+
+movie['director_name'] = label_encoder.fit_transform(movie['director_name'])
+
+movie['actor1_name'] = label_encoder.fit_transform(movie['actor1_name'])
+
+movie['content_rating'] = label_encoder.fit_transform(movie['content_rating'])
+
+movie['genre'] = label_encoder.fit_transform(movie['genre'])
+
+movie.tail()
+```
+
+Let's only take the movies which we assume that were successful:
+
+```{python}
+movie= movie[movie['gross'] > 3 * movie['budget']]
+movie
+```
+
+To make our data consistent for each columns so that they can be used to compare to get the required results, we use MInMaxScalar from sklearn library:
+
+```{python}
+columns = ["duration","critic_review","director_name","genre","total_fb_likes","actor1_name","content_rating"]
+
+scaler = MinMaxScaler()
+movie[columns] = scaler.fit_transform(movie[columns])
+movie.head()
+```
+
+```{python}
+movie['genre'].value_counts()
+```
+
+Before performing the K-means Clustering, we should examine which of the K values is better for us.
+
+We can analyze it with the help of the elbow method:
+
+```{python}
+inertia = []
+
+for k in range(1, 11):
+    kmeans = KMeans(n_clusters=k, random_state=0)
+    kmeans.fit(movie)
+    inertia.append(kmeans.inertia_)
+
+
+pl.figure(figsize=(8, 5))
+pl.plot(range(1, 11), inertia, marker='o')
+pl.xlabel('Number of Clusters (K)')
+pl.ylabel('Inertia')
+pl.title('Elbow Method for Optimal K')
+pl.grid()
+pl.show()
+```
+
+To confirm the above results, let's also find out the Silhouette Score and the related plots:
+
+```{python}
+silhouette_scores = []
+
+for k in range(2, 11):
+    kmeans = KMeans(n_clusters=k, random_state=0)
+    kmeans.fit(movie)  # Use the scaled features
+    silhouette_scores.append(silhouette_score(movie, kmeans.labels_))
+
+
+pl.figure(figsize=(8, 5))
+pl.plot(range(2, 11), silhouette_scores, marker='o')
+pl.xlabel('Number of Clusters (K)')
+pl.ylabel('Silhouette Score')
+pl.title('Silhouette Score for Optimal K')
+pl.grid()
+pl.show()
+```
+
+From the above two results, we can clearly see that K=2 works best for our model, so let's use that value and fit K-means:
+
+```{python}
+kmeans = KMeans(n_clusters=2, random_state=0)
+
+kmeans.fit(movie)
+```
+
+```{python}
+cluster_labels = kmeans.labels_
+movie['kmeans_cluster'] = cluster_labels
+movie.head()
+```
+
+To visualize the clusters, we use Seaborn pair plot function:
+
+```{python}
+sns.pairplot(movie, hue='kmeans_cluster', palette='Dark2')
+pl.show()
+```
+
+To see which features are important to us, we can use the correlation heatmap to compare the features:
+
+```{python}
+new_movie = movie.copy()
+new_movie['Cluster'] = cluster_labels
+
+correlation_matrix = new_movie.corr()
+
+pl.figure(figsize=(12, 8))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", cbar=True)
+pl.title('Correlation Heatmap')
+pl.show()
+```
+
+After getting the important features from the above plots, we now can reduce out multi-dimentional data into 2 dimensional data using PCA.
+
+```{python}
+pca = PCA(n_components=2)
+movie_pca = pca.fit_transform(movie)
+
+kmeans.fit(movie_pca)
+cluster_labels = kmeans.labels_
+
+
+pl.scatter(movie_pca[:, 0], movie_pca[:, 1], c=cluster_labels, cmap='viridis')
+pl.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=300, c='red', label='Cluster Centers')
+pl.legend()
+pl.title('K-means Clustering')
+pl.xlabel('PCA Component 1')
+pl.ylabel('PCA Component 2')
+pl.show()
+```
+
+Now, we can use Random Forest Classifier to determine which features really contribute to the success of the movie. But, before that we need to train our model by splitting our data into training data and testing data.
+
+```{python}
+X = movie.drop(['kmeans_cluster'], axis=1)
+y = movie['kmeans_cluster']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+rf_classifier = RandomForestClassifier()
+
+rf_classifier.fit(X_train, y_train)
+
+feature_importances = rf_classifier.feature_importances_
+
+
+feature_importance_movie = pd.DataFrame({'Feature': X.columns, 'Importance': feature_importances})
+feature_importance_movie = feature_importance_movie.sort_values(by='Importance', ascending=False)
+
+
+print(feature_importance_movie)
+```
+
+Visualizing this:
+
+```{python}
+pl.figure(figsize=(10, 6))
+pl.barh(feature_importance_movie['Feature'], feature_importance_movie['Importance'], color='skyblue')
+pl.xlabel('Feature Importance')
+pl.ylabel('Features')
+pl.title('Feature Importance Scores')
+pl.gca().invert_yaxis()  # Invert the y-axis for better readability
+pl.show()
+```
+
+From our analysis, apart from the obvious factors like gross lifetime collection of the movie and budget of the movie, the most important factor that determines the success of the Hollywood movies is the Genre of the movie.
+
+This makes complete sense to me because personally me and my friend circles also usually prefer to watch Sci-fi movies over other genre movies. Thus, we can assume that people generally like certain kind of Genre in a movie.
