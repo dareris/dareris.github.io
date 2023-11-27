@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/Anomaly detection/index.html",
       "/posts/Classification/index.html",
       "/posts/K-means Clustering/index.html",
       "/posts/post-with-code/index.html",
