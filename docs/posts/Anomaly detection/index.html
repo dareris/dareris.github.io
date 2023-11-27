@@ -202,7 +202,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data<span class="op">=</span>pd.read_csv(<span class="st">'kalimati_tarkari_dataset.csv'</span>,index_col<span class="op">=</span><span class="st">'SN'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data.head</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="24">
+<div class="cell-output cell-output-display" data-execution_count="46">
 <pre><code>&lt;bound method NDFrame.head of                   Commodity        Date Unit  Minimum  Maximum  Average
 SN                                                                     
 0        Tomato Big(Nepali)  2013-06-16   Kg     35.0     40.0     37.5
@@ -227,7 +227,7 @@ SN
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>specific_date <span class="op">=</span> pd.to_datetime(specific_date_1)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data[data[<span class="st">'Date'</span>] <span class="op">&gt;</span> specific_date]</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="25">
+<div class="cell-output cell-output-display" data-execution_count="47">
 <div>
 
 
@@ -366,8 +366,8 @@ SN
 </div>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pl.scatter(data.iloc[:,<span class="dv">3</span>],data.iloc[:,<span class="dv">4</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="27">
-<pre><code>&lt;matplotlib.collections.PathCollection at 0x20da5f40e50&gt;</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="49">
+<pre><code>&lt;matplotlib.collections.PathCollection at 0x20da938fb90&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-6-output-2.png" width="583" height="411"></p>
@@ -376,7 +376,7 @@ SN
 <p>Identifying the missing values:</p>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data.<span class="bu">apply</span>(pd.isnull).<span class="bu">sum</span>()<span class="op">/</span>data.shape[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="28">
+<div class="cell-output cell-output-display" data-execution_count="50">
 <pre><code>Commodity    0.0
 Date         0.0
 Unit         0.0
@@ -389,7 +389,7 @@ dtype: float64</code></pre>
 <p>Describing the data to know the details of our features:</p>
 <div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="29">
+<div class="cell-output cell-output-display" data-execution_count="51">
 <div>
 
 
@@ -481,7 +481,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 
   sns.distplot(data["Average"])</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="30">
+<div class="cell-output cell-output-display" data-execution_count="52">
 <pre><code>&lt;Axes: xlabel='Average', ylabel='Density'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -560,7 +560,7 @@ SN
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>anomaly <span class="op">=</span> model.predict(data[price])</span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>anomaly</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="33">
+<div class="cell-output cell-output-display" data-execution_count="55">
 <pre><code>array([1, 1, 1, ..., 1, 1, 1])</code></pre>
 </div>
 </div>
@@ -568,7 +568,7 @@ SN
 <div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>price <span class="op">=</span> np.where(anomaly <span class="op">&lt;</span> <span class="dv">0</span>)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>price</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="34">
+<div class="cell-output cell-output-display" data-execution_count="56">
 <pre><code>(array([   47,    74,   133, ..., 39590, 39621, 39623], dtype=int64),)</code></pre>
 </div>
 </div>
@@ -577,8 +577,8 @@ SN
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>new_price<span class="op">=</span>data.values</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>pl.scatter(data.iloc[:,<span class="dv">3</span>],data.iloc[:,<span class="dv">4</span>])</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>pl.scatter(new_price[price,<span class="dv">3</span>],new_price[price,<span class="dv">4</span>],edgecolor<span class="op">=</span><span class="st">'blue'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="35">
-<pre><code>&lt;matplotlib.collections.PathCollection at 0x20d98833e10&gt;</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="57">
+<pre><code>&lt;matplotlib.collections.PathCollection at 0x20d60972510&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-14-output-2.png" width="583" height="411"></p>
@@ -605,7 +605,7 @@ Try using .loc[row_indexer,col_indexer] = value instead
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
   data["Date"] = data["Date"].astype(int)</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="36">
+<div class="cell-output cell-output-display" data-execution_count="58">
 <div>
 
 
@@ -697,7 +697,7 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pca.fit_transform(data)</span>
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="38">
+<div class="cell-output cell-output-display" data-execution_count="60">
 <pre><code>array([[-0.79822404,  1.77395273],
        [-0.79822404,  1.77395273],
        [-1.20721222,  1.74699569],
@@ -737,7 +737,7 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>silhouette_avg <span class="op">=</span> silhouette_score(data, dbscan.labels_)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Silhouette Score: </span><span class="sc">{</span>silhouette_avg<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Silhouette Score: 0.8130632448850404</code></pre>
+<pre><code>Silhouette Score: 0.8130632448850386</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="19">
@@ -746,7 +746,7 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.DataFrame({<span class="st">'x'</span>: data[:, <span class="dv">0</span>], <span class="st">'y'</span>: data[:, <span class="dv">1</span>], <span class="st">'cluster'</span>: cluster_labels, <span class="st">'Date'</span>: Date,<span class="st">"Commodity"</span>:Commodity})</span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="41">
+<div class="cell-output cell-output-display" data-execution_count="63">
 <div>
 
 
