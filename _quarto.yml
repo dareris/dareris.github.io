@@ -2,6 +2,8 @@ project:
   type: website
   output-dir: docs
 
+title: "Blog Posts"
+
 website:
   title: "Rishav Khatiwada's Machine Learning Blogs"
   navbar:
