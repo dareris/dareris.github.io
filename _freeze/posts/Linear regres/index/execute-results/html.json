@@ -1,0 +1,11 @@
+{
+  "hash": "9597e4f6518e05183aa68db2424ccf37",
+  "result": {
+    "markdown": "---\ntitle: \"Linear Reg\"\nauthor: \"Rishav\"\ndate: \"2023-11-05\"\ncategories: [news, code, analysis]\nimage: \"image.jpg\"\n---\n\nImport required libaries\n\n::: {.cell execution_count=1}\n``` {.python .cell-code}\nimport pandas as pd\nimport matplotlib.pyplot as pl\n```\n:::\n\n\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

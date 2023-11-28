@@ -1,0 +1,11 @@
+{
+  "hash": "54fd8c340f8f5cbec13000d7859d0153",
+  "result": {
+    "markdown": "---\ntitle: \"Classification\"\nauthor: \"Rishav\"\ndate: \"2023-11-05\"\ncategories: [news, code, analysis]\nimage: \"image.jpg\"\n---\n\nImport required libaries\n\n::: {.cell execution_count=1}\n``` {.python .cell-code}\nimport pandas as pd\nimport matplotlib.pyplot as pl\n```\n:::\n\n\nImporting the dataset in csv format and indexing them in terms of date.\n\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}
