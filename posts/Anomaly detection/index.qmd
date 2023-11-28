@@ -3,7 +3,7 @@ title: "Anomaly Detection"
 author: "Rishav Khatiwada"
 date: "2023-11-19"
 categories: [news, code, analysis]
-image: "image.jpg"
+image: "image1.jpg"
 ---
 
 Importing the required libraries:
