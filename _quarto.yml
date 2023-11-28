@@ -3,14 +3,18 @@ project:
   output-dir: docs
 
 website:
-  title: "dareris.github.io"
+  title: "Rishav Khatiwada's Machine Learning Blogs"
   navbar:
     right:
-      - about.qmd
       - icon: github
         href: https://github.com/dareris
       - icon: twitter
-        href: https://twitter.com
+        href: https://twitter.com/Dareris
+
+  sidebar:
+    contents: auto
+    
+
 format:
   html:
     theme: cosmo
