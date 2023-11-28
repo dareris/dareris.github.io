@@ -3,7 +3,7 @@ title: "Regression"
 author: "Rishav Khatiwada"
 date: "2023-11-19"
 categories: [news, code, analysis]
-image: "image.jpg"
+image: "image1.png"
 ---
 
 Importing the required libraries
@@ -45,7 +45,7 @@ new_data.tail()
 
 Using the relation:
 
-$Resistance(R) = Voltage(V)/ Current(I),    from Ohm's law$
+$Resistance(R) = Voltage(V)/ Current(I), from Ohm's law$
 
 ```{python}
 new_data['resistance'] = new_data['Voltage'] / 100e-9
