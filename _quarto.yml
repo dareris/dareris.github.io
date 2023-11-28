@@ -13,7 +13,10 @@ website:
 
   sidebar:
     contents: auto
-    
+  
+theme: 
+  light: flatly
+  dark: darkly
 
 format:
   html:
