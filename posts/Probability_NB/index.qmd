@@ -24,6 +24,10 @@ Gaussian Naive Bayes is a smart way computers make predictions. It believes each
 
 In this post, we will find the probability of male athletes winning the gold medals from top 5 countries in Olympics using the Gaussian Bayes Naive model of probability theory.
 
+References: [https://www.britannica.com/science/statistics/Random-variables-and-probability- distributions](https://www.britannica.com/science/statistics/Random-variables-and-probability-distributions)
+
+<https://builtin.com/artificial-intelligence/gaussian-naive-bayes>
+
 Importing the required libraries:
 
 ```{python}
