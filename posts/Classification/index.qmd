@@ -6,6 +6,20 @@ categories: [news, code, analysis]
 image: "image1.png"
 ---
 
+In machine learning, classification is a way for a computer to learn and predict the category or label of something. There are four main types: binary (choosing between two options like yes or no), multi-class (picking from several options), multi-label (assigning multiple labels to something), and imbalanced (when there's a lot more of one thing than others).
+
+**Binary Classification:** In binary, we decide between two things, like figuring out if a picture is a truck or a boat. Special algorithms, like Logistic Regression and Support Vector Machines, work well for this. Algorithms like K-nearest neighbors and decision trees can also be termed as binary Classification.
+
+**Multi-Class Classification:** Here, we have more than two options. For instance, deciding if a picture is a plane, boat, or truck. Many algorithms used in binary classification can also be adapted for multi-class tasks.
+
+**Multi-Label Classification:** This is like multi-class, but an example can have more than one label. For example, an image might have a plane, boat, truck, and a dog. There are specific algorithms for this type of task.
+
+**Imbalanced Classification:** Sometimes, in training data, we have a lot more of one thing than others. For instance, if we are classifying vehicles and have 60% trucks, 25% planes, and 15% boats.
+
+So, in a nutshell, classification helps computers learn and make predictions about different things, and there are different types based on what we want to achieve.
+
+Reference: <https://www.datacamp.com/blog/classification-machine-learning>
+
 First we start with importing some of the required libraries
 
 ```{python}
