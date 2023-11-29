@@ -22,7 +22,7 @@ theme:
 
 format:
   html:
-    theme: cosmo
+    theme: solar
     css: styles.css
 
 editor: visual
