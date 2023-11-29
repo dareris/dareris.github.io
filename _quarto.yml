@@ -22,7 +22,7 @@ theme:
 
 format:
   html:
-    theme: solar
+    theme: journal
     css: styles.css
 
 editor: visual
