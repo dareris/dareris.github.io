@@ -1,0 +1,274 @@
+---
+title: "Probability & Random Variable using Naive Bayes"
+author: "Rishav Khatiwada"
+date: "2023-11-19"
+categories: [code, analysis]
+image: "image1.jpg"
+---
+
+Importing the required libraries:
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as pl
+import seaborn as sns
+from sklearn.preprocessing import LabelEncoder
+from sklearn.naive_bayes import GaussianNB
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+```
+
+Importing the dataset
+
+```{python}
+data=pd.read_csv('athlete_events.csv', index_col="ID")
+data.head()
+```
+
+To make our data machine learning ready, let's first identify the missing values:
+
+```{python}
+data.apply(pd.isnull).sum()/data.shape[0]
+```
+
+Let's select the important features and convert them into columns:
+
+```{python}
+athletes= data[["Team","Sex", "Season","Sport","Medal"]].copy()
+
+athletes.columns = ["country","sex","season", "sport","medal"]
+
+athletes.head()
+```
+
+```{python}
+athletes.apply(pd.isnull).sum()/athletes.shape[0]
+```
+
+Let's only select the medal winning countries and drop all non-medal winning countries:
+
+```{python}
+athletes = athletes[athletes['medal'].isin(['Gold', 'Silver', 'Bronze'])].dropna(subset=['medal'])
+athletes.tail()
+```
+
+Let's divide our medals category into gold and non-gold:
+
+```{python}
+new_athletes = athletes.copy() 
+
+new_athletes['target'] = new_athletes['medal'].apply(lambda x: 'gold' if x =='Gold' else 'no gold')
+new_athletes
+```
+
+This implies that we still have large dataset, so to further filter it, let's take the data for summer Olympics and in sports swimming only:
+
+```{python}
+selected_sports = ['Swimming']
+
+player = new_athletes[new_athletes['sport'].isin(selected_sports)]
+```
+
+```{python}
+selected_season = ['Summer']
+
+players=player[player['season'].isin(selected_season)]
+```
+
+```{python}
+players.apply(pd.isnull).sum()
+players.head()
+```
+
+For the simplicity of our model, let's label encode our data for all the important features:
+
+```{python}
+label_encoder = LabelEncoder()
+columns_to_encode = ['sex', 'country', 'season', 'sport', 'target']
+players[columns_to_encode] = players[columns_to_encode].apply(label_encoder.fit_transform)
+```
+
+Now, let's identify the countries with highest gold medal wins in Olympics in Swimming:
+
+```{python}
+male_df = players[players['sex'] == 1]
+
+
+male_medals_count = male_df.groupby('country')['medal'].count().reset_index()
+
+
+male_top_countries = male_medals_count.sort_values(by='medal', ascending=False).head(5)
+
+
+print("Top 5 countries with the most medals for males:")
+print(male_top_countries)
+
+
+female_df = players[players['sex'] == 0]
+female_medals_count = female_df.groupby('country')['medal'].count().reset_index()
+female_top_countries = female_medals_count.sort_values(by='medal', ascending=False).head(5)
+
+
+print("\nTop 5 countries with the most medals for females:")
+print(female_top_countries)
+```
+
+Since we are only interested in finding the probability of countries winning gold medals in swimming by male swimmers, we will not use female swimmers data from here onwards.
+
+Filtering the male athletes and training the data:
+
+```{python}
+male_players = players[players['sex'] == 1]
+
+subset_male_players = male_players[male_players['country'].isin(male_top_countries['country'])]
+
+
+X_subset_male = subset_male_players[['country']]
+y_subset_male = subset_male_players['target']
+
+X_train, X_test, y_train, y_test = train_test_split(X_subset_male, y_subset_male, test_size=0.3, random_state=42)
+```
+
+Initializing the Gaussian Naive Bayes model and fitting it:
+
+```{python}
+gnb = GaussianNB()
+
+gnb.fit(X_train, y_train)
+```
+
+Predicting probabilities of individual athletes first on the test set, we get:
+
+```{python}
+probability_predictions_male = gnb.predict_proba(X_test)[:, 1]  
+
+print("Predicted Probabilities for Male Athletes from Top 5 Countries:")
+
+print(probability_predictions_male)
+```
+
+It is difficult the analyze the individual result so we try to find the combine results of prob of top 5 countries to win a medal in swimming:
+
+```{python}
+probability_predictions_male = gnb.predict_proba(X_subset_male)[:, 1] 
+
+overall_probability_male = np.mean(probability_predictions_male)
+
+
+print("Overall Probability for Male Athletes from Top 5 Countries to Win a Medal:")
+print(overall_probability_male)
+```
+
+Actually, it is an interesting result because we can see that top 5 countries dominance has been so much in male swimming they have won more than half of Olympics gold.
+
+Now let's see the individual probability of top 5 countries:
+
+```{python}
+male_players = players[players['sex'] == 1]
+
+
+individual_probabilities_male = []
+
+
+for country in male_top_countries['country']:
+
+
+    subset_male_players_country = male_players[(male_players['country'] == country)]
+
+  
+    X_subset_male_country = subset_male_players_country[['country']]
+
+   
+    probability_predictions_male_country = gnb.predict_proba(X_subset_male_country)[:, 1]
+
+    
+    individual_probability_country = np.mean(probability_predictions_male_country)
+
+    
+    individual_probabilities_male.append(individual_probability_country)
+
+
+total_male_medals = male_players['target'].sum()
+
+
+overall_probabilities_male = [count / total_male_medals for count in male_top_countries['medal']]
+
+
+print("\nOverall Probabilities for Male Athletes from Top 5 Countries to Win a Medal:")
+for country, overall_probability in zip(male_top_countries['country'], overall_probabilities_male):
+    print(f"{country}: {overall_probability}")
+```
+
+```{python}
+male_top_countries['overall_probability_male'] = overall_probabilities_male
+male_top_countries
+```
+
+Now, we ca visualize the results in different ways:
+
+```{python}
+pl.figure(figsize=(12, 8))
+
+
+for i, (country, medal_count, overall_probability) in enumerate(male_top_countries.itertuples(index=False)):
+    pl.bar(i, overall_probability, label=f'Country {country} (Medals: {medal_count})', alpha=0.7)
+
+
+pl.xlabel('Country')
+pl.ylabel('Overall Probability')
+pl.title('Overall Probability for Male Athletes from Top 5 Countries to Win a Medal')
+pl.xticks(range(len(male_top_countries)), male_top_countries['country'])
+pl.legend()
+
+
+pl.show()
+```
+
+```{python}
+overall_probabilities_male = [0.557116, 0.204120, 0.090824, 0.090824, 0.069288]
+countries = ['55', '2', '45', '25', '20']
+
+
+sorted_data = sorted(zip(overall_probabilities_male, countries), key=lambda x: x[0])
+sorted_probabilities, sorted_countries = zip(*sorted_data)
+
+
+cumulative_probabilities = np.linspace(0, 1, len(sorted_probabilities))
+
+# Create the CDF plot
+pl.figure(figsize=(10, 6))
+pl.plot(sorted_probabilities, cumulative_probabilities, marker='o', linestyle='-', color='b')
+
+
+for prob, country, cumulative_prob in zip(sorted_probabilities, sorted_countries, cumulative_probabilities):
+    pl.annotate(f'{country}', (prob, cumulative_prob), textcoords="offset points", xytext=(0, 5), ha='center')
+
+pl.xlabel('Overall Probability')
+pl.ylabel('Cumulative Probability')
+pl.title('CDF Plot of Overall Probability for Male Athletes from Top 5 Countries to Win a Medal')
+pl.grid(True)
+pl.show()
+```
+
+```{python}
+
+overall_probabilities_male = [0.557116, 0.204120, 0.090824, 0.090824, 0.069288]
+
+
+male_top_countries = pd.DataFrame({
+    'country': [55, 2, 45, 25, 20],
+    'overall_probability': overall_probabilities_male
+})
+
+pl.figure(figsize=(10, 6))
+
+sns.kdeplot(data=male_top_countries['overall_probability'], fill=True, common_norm=False)
+
+pl.xlabel('Overall Probability')
+pl.ylabel('Density')
+pl.title('Kernel Density Estimate (KDE) Plot of Overall Probability for Male Athletes from Top 5 Countries to Win a Medal')
+pl.show()
+```
+
+These results clearly shows that USA is the flag bearer of Olympics swimming in male category. No one is close competitor to them. They have dominated the event overwhelmingly. Distant second is Australia, followed by Germany, Hungary and Japan. Though the latest Olympics data are unavailable, we also know that Britain and China are also not far behind to them and might catch up in upcoming events.
