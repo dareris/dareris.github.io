@@ -6,6 +6,38 @@ categories: [news, code, analysis]
 image: "image1.png"
 ---
 
+**Introduction to Clustering:** Clustering is a type of unsupervised learning where we look at data without labeled answers. It helps find patterns and groups in examples without predefined categories. The goal is to put similar things together and keep different things apart.
+
+**Why Clustering?** Clustering is important because it helps organize unlabeled data into natural groups. There's no one-size-fits-all method, and it depends on what the user needs. It could be for simplifying data, discovering unknown patterns, creating useful groups, or finding unusual data.
+
+**Clustering Methods:**
+
+1.  **Density-Based Methods:**
+
+    -   These methods focus on dense areas with similarities, distinguishing them from less dense regions. Examples include DBSCAN and OPTICS.
+
+2.  **Hierarchical Based Methods:**
+
+    -   Clusters here form a tree-like structure based on hierarchy. They can build new clusters using existing ones. Examples include CURE and BIRCH.
+
+3.  **Partitioning Methods:**
+
+    -   These methods split objects into clusters based on certain criteria, optimizing similarity. K-means and CLARANS are examples.
+
+4.  **Grid-based Methods:**
+
+    -   Data space is divided into grid-like cells for faster clustering operations. Examples are STING, Wave Cluster, and CLIQUE.
+
+**Clustering Algorithm:**
+
+-   **K-means Clustering:**
+
+    -   It's the simplest unsupervised learning algorithm, grouping observations into clusters based on the nearest mean.
+
+Reference: <https://www.geeksforgeeks.org/clustering-in-machine-learning/>
+
+In this post we use K-means clustering as our machine learning model to analyze the successful movies and the important features that determines the success and failure of the Hollywood movies.
+
 Importing the required libraries
 
 ```{python}

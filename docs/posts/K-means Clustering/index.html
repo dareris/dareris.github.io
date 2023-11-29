@@ -221,20 +221,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../posts/post-with-code/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Post With Code</span></a>
+  <a href="../../posts/Probability_NB/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Probability &amp; Random Variable using Naive Bayes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../posts/Regression/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Regression</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../posts/welcome/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Welcome To My Blog</span></a>
   </div>
 </li>
       </ul>
@@ -251,6 +245,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
+<p><strong>Introduction to Clustering:</strong> Clustering is a type of unsupervised learning where we look at data without labeled answers. It helps find patterns and groups in examples without predefined categories. The goal is to put similar things together and keep different things apart.</p>
+<p><strong>Why Clustering?</strong> Clustering is important because it helps organize unlabeled data into natural groups. There’s no one-size-fits-all method, and it depends on what the user needs. It could be for simplifying data, discovering unknown patterns, creating useful groups, or finding unusual data.</p>
+<p><strong>Clustering Methods:</strong></p>
+<ol type="1">
+<li><p><strong>Density-Based Methods:</strong></p>
+<ul>
+<li>These methods focus on dense areas with similarities, distinguishing them from less dense regions. Examples include DBSCAN and OPTICS.</li>
+</ul></li>
+<li><p><strong>Hierarchical Based Methods:</strong></p>
+<ul>
+<li>Clusters here form a tree-like structure based on hierarchy. They can build new clusters using existing ones. Examples include CURE and BIRCH.</li>
+</ul></li>
+<li><p><strong>Partitioning Methods:</strong></p>
+<ul>
+<li>These methods split objects into clusters based on certain criteria, optimizing similarity. K-means and CLARANS are examples.</li>
+</ul></li>
+<li><p><strong>Grid-based Methods:</strong></p>
+<ul>
+<li>Data space is divided into grid-like cells for faster clustering operations. Examples are STING, Wave Cluster, and CLIQUE.</li>
+</ul></li>
+</ol>
+<p><strong>Clustering Algorithm:</strong></p>
+<ul>
+<li><p><strong>K-means Clustering:</strong></p>
+<ul>
+<li>It’s the simplest unsupervised learning algorithm, grouping observations into clusters based on the nearest mean.</li>
+</ul></li>
+</ul>
+<p>Reference: <a href="https://www.geeksforgeeks.org/clustering-in-machine-learning/" class="uri">https://www.geeksforgeeks.org/clustering-in-machine-learning/</a></p>
+<p>In this post we use K-means clustering as our machine learning model to analyze the successful movies and the important features that determines the success and failure of the Hollywood movies.</p>
 <p>Importing the required libraries</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1564,15 +1588,15 @@ C:\Users\poude\AppData\Local\Programs\Python\Python311\Lib\site-packages\sklearn
 <span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(feature_importance_movie)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          Feature  Importance
-6           gross    0.720278
-7          budget    0.167511
-3           genre    0.030435
-8  total_fb_likes    0.020072
-1   critic_review    0.015293
-4        duration    0.014967
-5  content_rating    0.011633
-0   director_name    0.010883
-2     actor1_name    0.008928</code></pre>
+6           gross    0.675082
+7          budget    0.208035
+3           genre    0.029711
+4        duration    0.023587
+8  total_fb_likes    0.020611
+1   critic_review    0.013365
+2     actor1_name    0.010415
+0   director_name    0.010244
+5  content_rating    0.008948</code></pre>
 </div>
 </div>
 <p>Visualizing this:</p>
@@ -1585,7 +1609,7 @@ C:\Users\poude\AppData\Local\Programs\Python\Python311\Lib\site-packages\sklearn
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>pl.gca().invert_yaxis()  <span class="co"># Invert the y-axis for better readability</span></span>
 <span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>pl.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-21-output-1.png" width="888" height="523"></p>
+<p><img src="index_files/figure-html/cell-21-output-1.png" width="889" height="523"></p>
 </div>
 </div>
 <p>From our analysis, apart from the obvious factors like gross lifetime collection of the movie and budget of the movie, the most important factor that determines the success of the Hollywood movies is the Genre of the movie.</p>
