@@ -18,9 +18,11 @@ Continuous variables can be any number, so we don't talk about the chance of get
 
 Gaussian Naive Bayes is a smart way computers make predictions. It believes each group of things follows a certain pattern like how numbers spread out in a graph. It thinks each detail about something can independently help predict its group. It calculates the chance of something belonging to different groups and picks the one with the highest chance.
 
-**Naive Bayes Formula:**
+**Bayes Formula:**
 
-P(A∣B)=P(B∣A)⋅P(A)​/P(B)  
+![](https://wikimedia.org/api/rest_v1/media/math/render/svg/4211e3e7c3482573cdfbc0653d48a6279104c899){alt="{\\displaystyle P(A\\vert B)={\\frac {P(B\\vert A)P(A)}{P(B)}}}"}
+
+In this post, we will find the probability of male athletes winning the gold medals from top 5 countries in Olympics using the Gaussian Bayes Naive model of probability theory.
 
 Importing the required libraries:
 
