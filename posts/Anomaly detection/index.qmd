@@ -6,6 +6,16 @@ categories: [news, code, analysis]
 image: "image1.jpg"
 ---
 
+In data analysis, we often want to find things that are not like the usual stuff. This is called anomaly detection, where we identify rare items or events that stand out from the rest of the data. These unusual things might be suspicious or just different from what we expect.
+
+Anomaly detection is used in many areas like cybersecurity, medicine, and finance to catch strange or potentially harmful things. In the past, people looked for anomalies to clean up data for analysis or make models better. But now, in some cases, we actually want to find these unusual things because they are important.
+
+There are three main types of anomaly detection techniques. One way is supervised, where we already know which data is normal and abnormal, but this is not used much because we usually don't have that information. Another way is semi-supervised, where we assume some data is labeled, and we create a model for normal behavior to test new data against. The most common way is unsupervised, where we don't have labeled data, and this is widely used because it fits many real-world situations.
+
+Reference: <https://en.wikipedia.org/wiki/Anomaly_detection>
+
+In this blog post we use DBSCAN clustering method to identify the Anomaly in the vegetable data of Kathmandu, Nepal from 2020 January 1st onward.
+
 Importing the required libraries:
 
 ```{python}
