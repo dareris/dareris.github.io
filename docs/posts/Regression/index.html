@@ -223,8 +223,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../posts/post-with-code/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Post With Code</span></a>
+  <a href="../../posts/Probability_NB/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Probability &amp; Random Variable using Naive Bayes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -247,6 +247,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
+<p>Machine Learning Regression is a tool in data science that investigates connections between things. It’s used to predict outcomes based on features or factors in a dataset. For instance, it can forecast house prices or sales success by learning from historical data.</p>
+<p><strong>Types of Regression:</strong></p>
+<ol type="1">
+<li><p><strong>Simple Linear Regression:</strong></p>
+<ul>
+<li>This method involves drawing a straight line through data points to analyze the relationship between two variables. For example, understanding how the size of a house influences its price.</li>
+</ul></li>
+<li><p><strong>Multiple Linear Regression:</strong></p>
+<ul>
+<li>Building on simple linear regression, this technique considers more than one factor. It’s useful for predicting outcomes when multiple variables play a role, like predicting house prices based on both size and location.</li>
+</ul></li>
+<li><p><strong>Logistic Regression:</strong></p>
+<ul>
+<li>Specifically designed for binary outcomes, such as pass or fail. It predicts the probability of an event occurring. For instance, determining the likelihood of a student passing based on study hours.</li>
+</ul></li>
+</ol>
+<p><strong>Common Applications:</strong></p>
+<ul>
+<li><p>Forecasting outcomes such as house prices or sales.</p></li>
+<li><p>Assessing the success of marketing campaigns.</p></li>
+<li><p>Analyzing trends on digital platforms.</p></li>
+<li><p>Exploring relationships within datasets.</p></li>
+<li><p>Predicting financial indicators like stock prices.</p></li>
+<li><p>Creating visualizations based on time-series data.</p></li>
+</ul>
+<p>In essence, Machine Learning Regression acts as a sophisticated data analyst, unveiling patterns and predictions from complex datasets.</p>
+<p>In this post we are going to study the magnetoresistance plot and try to analyze them first using linear regression and then if that doesn’t work then we would choose other regression methods.</p>
 <p>Importing the required libraries</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -630,7 +657,7 @@ R-squared: 0.9906013999137329</code></pre>
 <span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>pl.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
 <span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>pl.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>C:\Users\poude\AppData\Local\Temp\ipykernel_12104\584074123.py:19: FutureWarning: 
+<pre><code>C:\Users\poude\AppData\Local\Temp\ipykernel_28352\584074123.py:19: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
