@@ -244,6 +244,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
+<p><strong>Random Variable and Probability</strong></p>
+<p>A random variable is a way to describe the result of a test or experiment with numbers. If it can only be certain numbers or a list of numbers, it’s called “discrete.” If it can be any number in a range, it’s called “continuous.” For example, counting the cars sold in a day is discrete, while measuring a person’s weight can be any number and is continuous.</p>
+<p>The probability distribution is like a map showing how likely each result is. For discrete variables, we use a “probability mass function” to show how probable each number is. It has two rules: the probability for each number must be positive, and when we add up all the probabilities, it should equal one.</p>
+<p>Continuous variables can be any number, so we don’t talk about the chance of getting one exact number. Instead, we talk about the chance of falling into a range of numbers.</p>
+<p><strong>Gaussian Naive Bayes</strong></p>
+<p>Gaussian Naive Bayes is a smart way computers make predictions. It believes each group of things follows a certain pattern like how numbers spread out in a graph. It thinks each detail about something can independently help predict its group. It calculates the chance of something belonging to different groups and picks the one with the highest chance.</p>
+<p><strong>Naive Bayes Formula:</strong></p>
+<p>P(A∣B)=P(B∣A)⋅P(A)​/P(B)</p>
 <p>Importing the required libraries:</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
